@@ -1,50 +1,43 @@
 #!/bin/bash
 
-#Проверили переданные опции 
-VALID_ARGS=$(getopt -o f:e:r: --long file:,extension:,replacement: -- "$@")
-if [[ $? -ne 0 ]]; then
-    exit 1;
-fi
-
-eval set -- "$VALID_ARGS"
-
 files=()
 replacement=""
 extensions=""
-
 i=0
-
-while [ : ]; 
-do
-  ((i+=1))
-
-  case "$1" in
-    -f | --file)
-      files+=$2
-      shift 2
-      ;;
-    -e | --extension)
-      extensions=$2
-      shift 2
-      ;;
-    -r | --replacement)
-      replacement=$2
-      shift 2
-      ;;
-  esac
-  
-  [ $i -gt $# ] && break
+# Обработка аргументов командной строки
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -f | --file)
+            files+=("$2")
+            shift 2
+            ;;
+        -e | --extension)
+            extension="$2"
+            shift 2
+            ;;
+        -r | --replacement)
+            replacement="$2"
+            shift 2
+            ;;
+        *)
+            echo "Unknown parametr: $1"
+            exit 1
+            ;;
+    esac
 done
 
+# Замена расширений файлов
 rename() {
- for file in $files;
-  do
+    
+ for file in ${files[@]};do
+    echo "Files ${files[@]}"
     if [ ! -f $file ]; then
        echo "File $file not found"
        exit 1
     fi
-    
-    mv -- "$file" "${file%.$extensions}.$replacement"
+
+      mv -- "$file" "${file%.*}.$replacement"
+      echo "${file%.*}.$replacement"
   done
 }
 
