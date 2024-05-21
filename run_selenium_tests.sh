@@ -35,7 +35,7 @@ done
 
 
 # Запуск тестов на Selenium Grid через селеноид
-mvn clean test -Dbase.url="$stand_url" -Dbrowser="$browser_name" -Dbrowser.version="$browser_version" -Dremote.url="$remote_url"
+mvn clean test "-Dbase.url=$stand_url" "-Dbrowser=$browser_name" "-Dbrowser.version=$browser_version" "-Dremote.url=$remote_url"
 
 # Проверка статуса
 if [ $? -ne 0 ]; then
