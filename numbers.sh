@@ -30,10 +30,16 @@ for ((i = 1; i <= middle; i++)); do
 done
 
 #Сумма
-for ((i = middle + 1; i <= number; i++)); do
-    if [ $((number % 2)) -eq 1 ] && [ "$i" -eq "$middle" ]; then
-        continue
-    fi
+#Устанавливаем точку отсчета суммы 
+start=$((middle + 1))
+
+#Если нечетное число - то сдвигаемся, игнорируя число в середине
+if [ $((number % 2)) -ne 0 ]; then
+    start=$((start + 1))
+fi
+
+#Считаем сумму
+for (( i=start; i<=number; i++ )); do
     sum=$((sum + i))
 done
 
